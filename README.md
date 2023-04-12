@@ -12,6 +12,16 @@ sudo apt-get install qt5*
 V4L2 installed:
 sudo apt-get install libv4l-dev
 
+OpenVINO inatlled:
+```
+curl -L https://storage.openvinotoolkit.org/repositories/openvino/packages/2022.3/linux/l_openvino_toolkit_ubuntu20_2022.3.0.9052.9752fafe8eb_x86_64.tgz --output openvino_2022.3.0.tgz
+tar -xf openvino_2022.3.0.tgz
+sudo mv l_openvino_toolkit_ubuntu20_2022.3.0.9052.9752fafe8eb_x86_64 /opt/intel/openvino_2022.3.0
+cd /opt/intel/openvino_2022.3.0/
+sudo -E ./install_dependencies/install_openvino_dependencies.sh
+sudo ln -s openvino_2022.3.0 openvino_2022
+```
+
 Build packages:
 sudo apt-get install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libpng-dev ffmpeg libavcodec-dev libavformat-dev libswscale-dev libxvidcore-dev libx264-dev libxine2-dev libv4l-dev v4l-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev mesa-utils libgl1-mesa-dri
 
@@ -83,7 +93,7 @@ Optional:
 sudo apt install v4l-utils
 
 usage:
-
+source /opt/intel/openvino_2022/setupvars.sh
 
 
 # Build

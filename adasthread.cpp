@@ -79,44 +79,6 @@ void AdasThread::run()
         Mat::zeros(INPUT_S_H, INPUT_S_W, CV_8UC3)
     };
 
-#if 0
-    qDebug() << "bg size = " << bg.cols << ", " << bg.rows;
-    resize(bg, bg, Size(1280, 1880));
-    qDebug() << "bg size = " << bg.cols << ", " << bg.rows;
-    Mat mask_tr = imread("/home/intel/git/ADAS/imgs/mask_tr1.png", IMREAD_COLOR);
-    Mat mask_bl = imread("/home/intel/git/ADAS/imgs/mask_bl1.png", IMREAD_COLOR);
-    Mat mask_br = imread("/home/intel/git/ADAS/imgs/mask_br1.png", IMREAD_COLOR);
-    Mat mask_tl = imread("/home/intel/git/ADAS/imgs/mask_tl1.png", IMREAD_COLOR);
-    resize(mask_tr, mask_tr, Size(500,100)); mask_tr.convertTo(mask_tr, CV_32F, 1.0 / 255.0);
-    resize(mask_bl, mask_bl, Size(500,100)); mask_bl.convertTo(mask_bl, CV_32F, 1.0 / 255.0);
-    resize(mask_br, mask_br, Size(500,100)); mask_br.convertTo(mask_br, CV_32F, 1.0 / 255.0);
-    resize(mask_tl, mask_tl, Size(500,100)); mask_tl.convertTo(mask_tl, CV_32F, 1.0 / 255.0);
-
-    Mat car = imread("/home/intel/git/ADAS/imgs/suzuki_jimny.png", IMREAD_COLOR);
-    Mat car_mask = imread("/home/intel/git/ADAS/imgs/suzuki_jimny_mask.png", IMREAD_COLOR);
-    Mat car_mask_inv;
-    resize(car, car, Size(680, 1320));
-    cvtColor(car, car, CV_BGR2RGB);
-    resize(car_mask, car_mask, Size(680, 1320));
-    bitwise_not(car_mask, car_mask_inv);
-
-    /* Define image buffer */
-    vector<Mat> frames = {
-        Mat::zeros(INPUT_S_H, INPUT_S_W, CV_8UC3),
-        Mat::zeros(INPUT_S_H, INPUT_S_W, CV_8UC3),
-        Mat::zeros(INPUT_S_H, INPUT_S_W, CV_8UC3),
-        Mat::zeros(INPUT_S_H, INPUT_S_W, CV_8UC3)
-    };
-    vector<Mat> resizes = {
-        Mat::zeros(INPUT_RE_H, INPUT_RE_W, CV_8UC3),
-        Mat::zeros(INPUT_RE_H, INPUT_RE_W, CV_8UC3),
-        Mat::zeros(INPUT_RE_H, INPUT_RE_W, CV_8UC3),
-        Mat::zeros(INPUT_RE_H, INPUT_RE_W, CV_8UC3)
-    };
-    Mat dsts[NUM_CAM];
-    Mat birdviews[NUM_CAM];
-
-  #endif
     while(true)
     {
         static bool changed[NUM_CAM];
@@ -144,59 +106,7 @@ void AdasThread::run()
 
         // Image processing for ADAS
         if (changed[FRONT_CAM] && changed[RIGHT_CAM] && changed[REAR_CAM] && changed[LEFT_CAM]) {
-#if 0
-            // Resize
-            for (int i = 0 ; i < NUM_CAM ; i++)
-                resize(frames[i], resizes[i], Size(INPUT_RE_W, INPUT_RE_H));
 
-            // Undistortion
-            //for (int i = 0 ; i < NUM_CAM ; i++)
-            //    remap(resizes[i], dsts[i], map1, map2, INTER_LINEAR, BORDER_CONSTANT);
-
-            // Bird-eye view
-            for (int i = 0 ; i < NUM_CAM ; i++) {
-                Mat M = getPerspectiveTransform(corners, WarpCorners);
-                //warpPerspective(dsts[i], birdviews[i], M, Size(bird_w, bird_h));
-                warpPerspective(resizes[i], birdviews[i], M, Size(bird_w, bird_h));
-            }
-
-            Mat src1 = birdviews[FRONT_CAM](Range(100,500), Range(0,1280));
-            Mat src2 = birdviews[RIGHT_CAM](Range(0,500), Range(0,1280));
-            Mat src3 = birdviews[REAR_CAM](Range(100,500), Range(0,1280));
-            Mat src4 = birdviews[LEFT_CAM](Range(0,500), Range(0,1280));
-            rotate(src2, src2, ROTATE_90_CLOCKWISE);
-            rotate(src3, src3, ROTATE_180);
-            rotate(src4, src4, ROTATE_90_COUNTERCLOCKWISE);
-
-            src1.copyTo(bg(Rect(0, 0, 1280, 400)));
-            src3.copyTo(bg(Range(1480,1880), Range(0,1280)));
-            multiply(mask_tr, src1(Range(300,400), Range(780,1280)), src1(Range(300,400), Range(780,1280)));
-            multiply(Scalar::all(1.0) - mask_tr, src2(Range(0,100), Range(0, 500)), src2(Range(0,100), Range(0, 500)));
-            add(src1(Range(300,400), Range(780,1280)), src2(Range(0,100), Range(0, 500)), bg(Range(300,400), Range(780,1280)));
-
-            src2(Range(100,1180), Range(0,500)).copyTo(bg(Range(400,1480), Range(780,1280)));
-            multiply(mask_br, src3(Range(0,100), Range(780,1280)), src3(Range(0,100), Range(780,1280)));
-            multiply(Scalar::all(1.0) - mask_br, src2(Range(1180,1280), Range(0, 500)), src2(Range(1180,1280), Range(0, 500)));
-            add(src3(Range(0,100), Range(780,1280)), src2(Range(1180,1280), Range(0, 500)), bg(Range(1480,1580), Range(780,1280)));
-
-            multiply(mask_bl, src3(Range(0,100), Range(0,500)), src3(Range(0,100), Range(0,500)));
-            multiply(Scalar::all(1.0) - mask_bl, src4(Range(1180,1280), Range(0, 500)), src4(Range(1180,1280), Range(0, 500)));
-            add(src3(Range(0,100), Range(0,500)), src4(Range(1180,1280), Range(0, 500)), bg(Range(1480,1580), Range(0,500)));
-
-            src4(Range(100,1180), Range(0,500)).copyTo(bg(Range(400,1480), Range(0,500)));
-            multiply(mask_tl, src1(Range(300,400), Range(0,500)), src1(Range(300,400), Range(0,500)));
-            multiply(Scalar::all(1.0) - mask_tl, src4(Range(0,100), Range(0, 500)), src4(Range(0,100), Range(0, 500)));
-            add(src1(Range(300,400), Range(0,500)), src4(Range(0,100), Range(0, 500)), bg(Range(300,400), Range(0,500)));
-
-            // Car
-            Mat roi = bg(Range(290, 290+1320), Range(300, 300+680));
-
-            //bitwise_and(roi, roi, roi, car_mask_inv);
-            bitwise_and(roi, car_mask_inv, roi);
-            bitwise_and(car, car_mask, car);
-            bitwise_or(car, roi, bg(Range(290, 290+1320), Range(300, 300+680)));
-#endif
-            // Resize
             Mat out = frames[FRONT_CAM];
             Mat left = frames[LEFT_CAM]; resize(left, left, Size(700, 440));
             Mat right = frames[RIGHT_CAM]; resize(right, right, Size(700, 440));
@@ -221,7 +131,7 @@ void AdasThread::run()
             bitwise_and(room, room_mirror_in_mask, room);
             bitwise_or(room, roi_room, room_mirror_bg);
 
-            //bitwise_or(car, roi, out);
+            // Display
             QImage *pQimg = new QImage((uchar*) out.data, out.cols, out.rows, QImage::Format_RGB888);
             this->pLabel->setPixmap(QPixmap::fromImage(*pQimg));
 
@@ -231,5 +141,4 @@ void AdasThread::run()
 
         msleep(loop_sleep_ms);
     }
-
 }
