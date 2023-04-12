@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     myShowVideo4 = new ShowVideo(adas_ui->ui.label_right_img,(char *)"/dev/video10", img_width, img_height, &cbuf[3]);
 
     // Thread
-    AdasThread *adas = new AdasThread(adas_ui->ui.label_adas, &cbuf[0], &cbuf[1], &cbuf[2], &cbuf[3]);
+    AdasThread *adas = new AdasThread(&cbuf[0], &cbuf[1], &cbuf[2], &cbuf[3]);
     adas->start();
 
     // Set position
