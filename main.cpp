@@ -74,17 +74,17 @@ int main(int argc, char *argv[])
     
     uint32_t img_width = 1920, img_height = 1080;
 
-    myShowVideo1 = new ShowVideo(adas_ui->ui.label_front_img,(char *)"/dev/video0", img_width, img_height, &cbuf[0]);
-    myShowVideo2 = new ShowVideo(adas_ui->ui.label_rear_img,(char *)"/dev/video4", img_width, img_height, &cbuf[1]);
-    myShowVideo3 = new ShowVideo(adas_ui->ui.label_left_img,(char *)"/dev/video8", img_width, img_height, &cbuf[2]);
-    myShowVideo4 = new ShowVideo(adas_ui->ui.label_right_img,(char *)"/dev/video10", img_width, img_height, &cbuf[3]);
+    myShowVideo1 = new ShowVideo(adas_ui->ui.label_front_img,(char *)"/dev/video12", img_width, img_height, &cbuf[0]);
+    myShowVideo2 = new ShowVideo(adas_ui->ui.label_rear_img,(char *)"/dev/video13", img_width, img_height, &cbuf[1]);
+    myShowVideo3 = new ShowVideo(adas_ui->ui.label_left_img,(char *)"/dev/video14", img_width, img_height, &cbuf[2]);
+    myShowVideo4 = new ShowVideo(adas_ui->ui.label_right_img,(char *)"/dev/video15", img_width, img_height, &cbuf[3]);
 
     // Thread
     AdasThread *adas = new AdasThread(&cbuf[0], &cbuf[1], &cbuf[2], &cbuf[3]);
     adas->start();
 
     // Set position
-    adas_ui->setGeometry(0,0,3840,1080);
+    adas_ui->setGeometry(0,1080,1920,1080);
 
     // Show
     adas_ui->show();

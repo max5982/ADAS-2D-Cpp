@@ -230,16 +230,19 @@ void AdasThread::run()
     };
 
     /* OpenVINO Init */
-    std::vector<std::string> labels;
-    ColorPalette palette(100);
+    std::vector<std::string> labels = {
+        std::string("none"),
+        std::string("vehicle"),
+        std::string("pedestrian")
+    };
+    ColorPalette palette(5);
     std::unique_ptr<ModelBase> model;
     model.reset(new ModelSSD("pedestrian-and-vehicle-detector-adas-0001.xml",
-			    0.5, 0, labels, NULL));
-    model->setInputsPreprocessing(0, NULL, NULL);
-
+			    0.6, 0, labels, ""));
+    model->setInputsPreprocessing(0, "", "");
     ov::Core core;
     AsyncPipeline pipeline(std::move(model),
-                  ConfigFactory::getUserConfig("CPU", 0, NULL, 0), core);
+                  ConfigFactory::getUserConfig("CPU", 0, "", 0), core);
     int64_t frameNum = -1;
     std::unique_ptr<ResultBase> result;
     uint32_t framesProcessed = 0;
@@ -329,8 +332,13 @@ void AdasThread::run()
             //this->pLabel->setPixmap(QPixmap::fromImage(*pQimg));
 
             cvtColor(out, out, COLOR_RGB2BGR);
-	    imshow("ADAS", out);
-	    waitKey(1);
+
+            namedWindow("ADAS", WND_PROP_FULLSCREEN);
+            setWindowProperty("ADAS", WND_PROP_FULLSCREEN, WINDOW_FULLSCREEN);
+            moveWindow("ADAS", 1920, 1080);
+
+            imshow("ADAS", out);
+            //waitKey(1);
 
             changed[FRONT_CAM] = changed[RIGHT_CAM] = changed[REAR_CAM] = changed[LEFT_CAM] = false;
             //qDebug() << "Changed All!!!" << QTime::currentTime().msec();

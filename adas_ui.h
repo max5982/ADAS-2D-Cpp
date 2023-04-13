@@ -135,15 +135,15 @@ public:
 
     void retranslateUi(QWidget *Form)
     {
-        label_rear_img->setText(QCoreApplication::translate("Form", "TextLabel", nullptr));
-        label_front_img->setText(QCoreApplication::translate("Form", "TextLabel", nullptr));
-        label_right_txt->setText(QCoreApplication::translate("Form", "RIGHT", nullptr));
-        label_front_txt->setText(QCoreApplication::translate("Form", "FRONT", nullptr));
-        label_left_txt->setText(QCoreApplication::translate("Form", "LEFT", nullptr));
-        label_rear_txt->setText(QCoreApplication::translate("Form", "REAR", nullptr));
-        label_right_img->setText(QCoreApplication::translate("Form", "TextLabel", nullptr));
-        label_left_img->setText(QCoreApplication::translate("Form", "TextLabel", nullptr));
-        (void)Form;
+        label_rear_img->setText(QApplication::translate("Form", "TextLabel", nullptr));
+        label_front_img->setText(QApplication::translate("Form", "TextLabel", nullptr));
+        label_right_txt->setText(QApplication::translate("Form", "RIGHT #8", nullptr));
+        label_front_txt->setText(QApplication::translate("Form", "FRONT #5", nullptr));
+        label_left_txt->setText(QApplication::translate("Form", "LEFT #7", nullptr));
+        label_rear_txt->setText(QApplication::translate("Form", "REAR #6", nullptr));
+        label_right_img->setText(QApplication::translate("Form", "TextLabel", nullptr));
+        label_left_img->setText(QApplication::translate("Form", "TextLabel", nullptr));
+        Q_UNUSED(Form);
     } // retranslateUi
 
 };
