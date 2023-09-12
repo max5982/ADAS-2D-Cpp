@@ -32,6 +32,9 @@ sudo rm /usr/local/{bin,lib}/*opencv*
 sudo apt-get autoremove
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install libgstreamer1.0-dev gstreamer1.0-plugins-base libgstreamer-plugins-base1.0-dev
+sudo apt-get install -y build-essential cmake git unzip pkg-config make
+sudo apt-get install -y python3.10-dev python3-numpy libtbb2 libtbb-dev
+sudo apt-get install -y  libjpeg-dev libpng-dev libtiff-dev libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libeigen3-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev sphinx-common libtbb-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenexr-dev libgstreamer-plugins-base1.0-dev libavutil-dev libavfilter-dev
 ```
 ```
 mkdir .opencv && cd .opencv
@@ -40,6 +43,7 @@ unzip opencv.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.8.0.zip
 unzip opencv_contrib.zip
 cd opencv-4.8.0 && mkdir build && cd build
+export CMAKE_INSTALL_PREFIX=/usr/local
 cmake \
 -D CMAKE_BUILD_TYPE=RELEASE \
 -D CMAKE_INSTALL_PREFIX=/usr/local \
@@ -86,6 +90,50 @@ Make sure `cat /etc/ld.so.conf.d/*` includes `/usr/local/lib`. If not, please ru
 ```shell
 sudo sh -c 'echo '/usr/local/lib' > /etc/ld.so.conf.d/opencv.conf'
 sudo ldconfig
+python3 -c "import cv2; print(cv2.getBuildInformation())"
+```
+
+```
+cmake \
+-D WITH_CUDA=OFF \
+-D BUILD_TIFF=ON \
+-D BUILD_opencv_java=OFF \
+-D WITH_OPENGL=ON \
+-D WITH_OPENCL=ON \
+-D WITH_IPP=ON \
+-D WITH_TBB=ON \
+-D WITH_EIGEN=ON \
+-D WITH_V4L=ON \
+-D WITH_VTK=OFF \
+-D BUILD_TESTS=OFF \
+-D BUILD_PERF_TESTS=ON \
+-D CMAKE_BUILD_TYPE=RELEASE \
+-D BUILD_opencv_python2=OFF \
+-D CMAKE_INSTALL_PREFIX=/usr/local \
+-D PYTHON3_INCLUDE_DIR=/usr/include/python3.10 \
+-D PYTHON3_PACKAGES_PATH=/usr/lib/python3/dist-packages \
+-D INSTALL_C_EXAMPLES=ON \
+-D INSTALL_PYTHON_EXAMPLES=ON \
+-D OPENCV_ENABLE_NONFREE=ON \
+-D OPENCV_GENERATE_PKGCONFIG=ON \
+-D PYTHON3_EXECUTABLE=$(which python3) \
+-D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
+-D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules \
+-D BUILD_EXAMPLES=ON \
+-D WITH_QT=ON \
+-D WITH_GTK=OFF \
+-D WITH_VA=ON \
+-D WITH_VA_INTEL=ON \
+-D WITH_MFX=ON \
+-D WITH_FFMPEG=ON \
+-D WITH_GSTREAMER=ON \
+-D BUILD_NEW_PYTHON_SUPPORT=ON \
+-D OPENCV_SKIP_PYTHON_LOADER=ON \
+-D OPENCV_GENERATE_PKGCONFIG=ON \
+-D HIGHGUI_PLUGIN_LIST=all \
+-D OPENCV_IPP_GAUSSIAN_BLUR=ON \
+-D WITH_JPEG=ON \
+-D WITH_PNG=ON ../
 ```
 
 
