@@ -38,7 +38,7 @@ wget -O opencv.zip https://github.com/opencv/opencv/archive/4.7.0.zip
 unzip opencv.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.7.0.zip
 unzip opencv_contrib.zip
-cd opencv-4.7.0 && mkdir build && cd build
+cd opencv-4.8.0 && mkdir build && cd build
 cmake \
 -D CMAKE_BUILD_TYPE=RELEASE \
 -D CMAKE_INSTALL_PREFIX=/usr/local \
@@ -64,7 +64,7 @@ cmake \
 -D WITH_VA=ON \
 -D WITH_VA_INTEL=ON \
 -D WITH_MFX=ON \
--D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.7.0/modules \
+-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.8.0/modules \
 -D WITH_V4L=ON  \
 -D WITH_FFMPEG=ON \
 -D WITH_GSTREAMER=ON \
