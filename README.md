@@ -31,12 +31,13 @@ sudo apt-get remove --purge libopencv* python-opencv
 sudo rm /usr/local/{bin,lib}/*opencv*
 sudo apt-get autoremove
 sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install libgstreamer1.0-dev gstreamer1.0-plugins-base libgstreamer-plugins-base1.0-dev
 ```
 ```
 mkdir .opencv && cd .opencv
-wget -O opencv.zip https://github.com/opencv/opencv/archive/4.7.0.zip
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.8.0.zip
 unzip opencv.zip
-wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.7.0.zip
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.8.0.zip
 unzip opencv_contrib.zip
 cd opencv-4.8.0 && mkdir build && cd build
 cmake \
