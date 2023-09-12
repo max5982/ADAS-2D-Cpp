@@ -4,13 +4,17 @@ use QT5 do preview, need to work with soc-hkr-host-driver/pcie driver.
 
 precondition:
 QT5 installed
+```
 sudo apt-get install build-essential cmake
 sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 sudo apt-get install qtcreator
 sudo apt-get install qt5*
+```
 
 V4L2 installed:
+```
 sudo apt-get install libv4l-dev
+```
 
 OpenVINO inatlled:
 ```
