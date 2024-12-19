@@ -27,7 +27,9 @@ sudo ln -s openvino_2022.3.0 openvino_2022
 ```
 
 Build packages:
+```
 sudo apt-get install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libpng-dev ffmpeg libavcodec-dev libavformat-dev libswscale-dev libxvidcore-dev libx264-dev libxine2-dev libv4l-dev v4l-utils libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev mesa-utils libgl1-mesa-dri
+```
 
 Build OpenCV:
 ```
