@@ -44,11 +44,11 @@ sudo apt-get install -y  libjpeg-dev libpng-dev libtiff-dev libgtk2.0-dev libavc
 ```
 ```
 mkdir .opencv && cd .opencv
-wget -O opencv.zip https://github.com/opencv/opencv/archive/4.11.0.zip
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.10.0.zip
 unzip opencv.zip
-wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.11.0.zip
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip
 unzip opencv_contrib.zip
-cd opencv-4.11.0 && mkdir build && cd build
+cd opencv-4.10.0 && mkdir build && cd build
 export CMAKE_INSTALL_PREFIX=/usr/local
 cmake \
 -D CMAKE_BUILD_TYPE=RELEASE \
@@ -63,8 +63,8 @@ cmake \
 -D BUILD_JPEG=ON \
 -D WITH_PNG=ON \
 -D BUILD_WITH_DEBUG_INFO=OFF \
--D BUILD_DOCS=ON \
--D INSTALL_C_EXAMPLES=ON \
+-D BUILD_DOCS=OFF \
+-D INSTALL_C_EXAMPLES=OFF \
 -D BUILD_EXAMPLES=OFF \
 -D BUILD_PACKAGE=OFF \
 -D BUILD_TESTS=OFF \
@@ -76,7 +76,7 @@ cmake \
 -D WITH_VA=ON \
 -D WITH_VA_INTEL=ON \
 -D WITH_MFX=ON \
--D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.11.0/modules \
+-D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.10.0/modules \
 -D WITH_V4L=ON  \
 -D WITH_FFMPEG=ON \
 -D WITH_GSTREAMER=ON \
@@ -90,7 +90,7 @@ cmake \
 -D BUILD_opencv_apps=ON \
 -D OPENCV_SKIP_PYTHON_LOADER=ON \
 -D OPENCV_GENERATE_PKGCONFIG=ON \
--D INSTALL_PYTHON_EXAMPLES=ON ../
+-D INSTALL_PYTHON_EXAMPLES=OFF ../
 
 make -j$(nproc)
 sudo make install
