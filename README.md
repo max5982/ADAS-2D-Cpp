@@ -106,7 +106,7 @@ python3 -c "import cv2; print(cv2.getBuildInformation())"
 ```
 sudo apt-get update
 sudo apt-get install mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
-sudo apt-get install libqt5opengl5-dev
+sudo apt-get install libqt5opengl5-dev libva-dev
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D WITH_TBB=OFF \
