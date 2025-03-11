@@ -178,3 +178,30 @@ source /opt/intel/openvino_2022/setupvars.sh
 - cmake ..
 - make
 
+# OpenCV higui frameless
+```
+# opencv-4.10.0/modules/highgui/src/window_QT.cpp
+void GuiReceiver::createWindow(QString name, int flags)
+{
+    if (!qApp)
+        CV_Error(cv::Error::StsNullPtr, "NULL session handler" );
+
+    // Check the name in the storage
+    if (icvFindWindowByName(name.toLatin1().data()))
+    {
+        return;
+    }
+
+    nb_windows++;
+
+-    new CvWindow(name, flags);
++    CvWindow* window = new CvWindow(name, flags);
+
++    // Frameless (타이틀바 및 메뉴 제거)
++    window->setWindowFlags(Qt::FramelessWindowHint | Qt::Window);
++
++    window->show(); // 반드시 호출하여 창 표시
+
+    cvWaitKey(1);
+}
+```
