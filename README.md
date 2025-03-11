@@ -205,3 +205,19 @@ void GuiReceiver::createWindow(QString name, int flags)
     cvWaitKey(1);
 }
 ```
+```
+# opencv-4.10.0/modules/highgui/src/window_QT.cpp
+#if 0
+    //4: shortcuts and actions
+    //5: toolBar and statusbar
+    if (param_gui_mode == CV_GUI_EXPANDED)
+    {
+        createActions();
+        createShortcuts();
+
+        createToolBar();
+        createStatusBar();
+    }
+#endif
+
+```
